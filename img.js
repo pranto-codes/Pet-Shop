@@ -1,113 +1,160 @@
-//load categories
-const loadCategories = () => {
-  //console.log("load");
-  fetch("https://openapi.programming-hero.com/api/peddy/categories")
-    .then((res) => res.json())
-    //.then((data) => console.log(data.categories))
-    .then((data) => displayCategories(data.categories))
-    .catch((err) => console.log(err));
-};
-//load contents
-const loadContents = () => {
-  //console.log("load");
-  fetch("https://openapi.programming-hero.com/api/peddy/pets")
-    .then((res) => res.json())
-    //.then((data) => console.log(data.categories))
-    .then((data) => displayContents(data.pets))
-    //.then((data) => console.log(data.pets))
-    .catch((err) => console.log(err));
-};
-const loadCategoriesContent = (categoryName) => {
-  //alert(id);
-  fetch(
-    `https://openapi.programming-hero.com/api/peddy/category/${categoryName}`
-  )
-    .then((res) => res.json())
-    //.then((data) => console.log(data.categories))
-    .then((data) => displayContents(data.pets))
-    //.then((data) => console.log(data.pets))
-    .catch((err) => console.log(err));
-};
-const cardDemo = {
-  petId: 12,
-  breed: "Poodle",
-  category: "Dog",
-  date_of_birth: "2023-08-10",
-  price: 1500,
-  image: "https://i.ibb.co.com/R9ZHvDD/pet-12.jpg",
-  gender: "Female",
-  pet_details:
-    "This elegant female Poodle, born on August 10, 2023, is intelligent and eager to learn. Fully vaccinated and priced at $1500, she's perfect for families looking for a trainable and loving companion.",
-  vaccinated_status: "Fully",
-  pet_name: "Chloe",
-};
+// ==========================================
+// PEDDY - CATEGORY SECTION
+// ==========================================
 
-const displayContents = (pets) => {
-  const contents = document.getElementById("contents");
-  //console.log(pets);
-  pets.forEach((pet) => {
-    console.log(pet);
-    const card = document.createElement("div");
-    card.classList = "card bg-base-100 w-96 shadow-sm";
-    card.innerHTML = `
-      <figure class="h-[250px]">
-    <img  class="h-full w-full object-cover"
-      src=${pet.image}
-      alt="Shoes" />
-  </figure>
-  <div class="px-0 py-2">
-  <div>
-  <div>
-  <h2 class="font-semibold">${pet.pet_name}</h2>
-  <p class="flex text-xl"> <img class="h-5 mt-1" src="icons/icons8-small-hearts-24.png"/> Breed: ${pet.breed}</p>
-  <p class="flex text-xl"> <img class="h-5 mt-1" src="icons/download.png" /> Birth : ${pet.date_of_birth}</p>
-  <p class="flex text-xl"> <img class="h-5 mt-1" src="icons/icons8-gender-40.png" /> Gender: ${pet.gender}</p>
-  <p class="flex text-xl"> <img class="h-5 mt-1" src="icons/icons8-dollar-48.png" />  Price: ${pet.price}</p>
-  </div>
-    <div class="divider"></div>
-    <div class=" flex justify-between">
-<button class="btn btn-square ">
-<img src="icons/icons8-like-50.png"
-</button>
+const categories = [
+  {
+    name: "Dogs",
+    icon: "fa-dog",
+    image:
+      "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80",
+    description: "Loyal companions",
+  },
+  {
+    name: "Cats",
+    icon: "fa-cat",
+    image:
+      "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80",
+    description: "Independent friends",
+  },
+  {
+    name: "Rabbits",
+    icon: "fa-carrot",
+    image:
+      "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=600&q=80",
+    description: "Gentle and playful",
+  },
+  {
+    name: "Birds",
+    icon: "fa-dove",
+    image:
+      "https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=600&q=80",
+    description: "Colorful companions",
+  },
+  {
+    name: "Fish",
+    icon: "fa-fish",
+    image:
+      "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=600&q=80",
+    description: "Peaceful swimmers",
+  },
+  {
+    name: "Turtles",
+    icon: "fa-water",
+    image:
+      "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?auto=format&fit=crop&w=600&q=80",
+    description: "Calm little friends",
+  },
+];
 
-  <button class="btn btn-outline btn-success">Adopt</button>
-<button class="btn btn-outline btn-success">Details</button>
-    </div>
-  <div>
-</div>
-  </div>
-  </div>
-    `;
-    contents.append(card);
+const categoryContainer = document.getElementById("categories");
+
+// Current selected category
+window.currentCategory = "All";
+
+// Update active category design
+window.updateActiveCategory = function () {
+  const activeCategory = window.currentCategory || "All";
+
+  document.querySelectorAll(".category-btn").forEach((button) => {
+    const isActive = button.dataset.category === activeCategory;
+
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
   });
 };
-//{
-//    "id": 1,
-//    "category": "Cat",
-//    "category_icon": "https://i.ibb.co.com/N7dM2K1/cat.png"
-//}
 
-// displayCategories
+// Display category cards
+function displayCategories() {
+  if (!categoryContainer) return;
 
-const displayCategories = (categories) => {
-  const categoryContainer = document.getElementById("categories");
-  categories.forEach((item) => {
-    console.log(item);
+  const allPetsCard = `
+    <button
+      type="button"
+      class="category-btn active"
+      data-category="All"
+      aria-pressed="true"
+    >
+      <img
+        class="category-image"
+        src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=600&q=80"
+        alt="Different pets"
+        loading="lazy"
+      />
 
-    const buttonContainer = document.createElement("div");
-    //button.classList = "btn";
-    //button.onclick = alert("hfk");
-    //button.innerText = item.category;
-    buttonContainer.innerHTML = `
-    <button onclick="loadCategoriesContent(${item.category})" class="btn">  
-     ${item.category} 
-    <img class=h-full  src=${item.category_icon} />
+      <div class="p-3">
+        <div class="flex items-center gap-2">
+          <span class="category-icon">
+            <i class="fa-solid fa-paw"></i>
+          </span>
+          <span class="font-bold text-sm">All Pets</span>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-2">Meet everyone</p>
+      </div>
     </button>
+  `;
+
+  const categoryCards = categories
+    .map((category) => {
+      return `
+      <button
+        type="button"
+        class="category-btn"
+        data-category="${category.name}"
+        aria-pressed="false"
+      >
+        <img
+          class="category-image"
+          src="${category.image}"
+          alt="${category.name}"
+          loading="lazy"
+        />
+
+        <div class="p-3">
+          <div class="flex items-center gap-2">
+            <span class="category-icon">
+              <i class="fa-solid ${category.icon}"></i>
+            </span>
+
+            <span class="font-bold text-sm">
+              ${category.name}
+            </span>
+          </div>
+
+          <p class="text-xs text-gray-500 mt-2">
+            ${category.description}
+          </p>
+        </div>
+      </button>
     `;
+    })
+    .join("");
 
-    categoryContainer.append(buttonContainer);
+  categoryContainer.innerHTML = allPetsCard + categoryCards;
+
+  // Category click events
+  categoryContainer.querySelectorAll(".category-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const selectedCategory = button.dataset.category;
+
+      window.currentCategory = selectedCategory;
+
+      window.updateActiveCategory();
+
+      // Call the filter function from img2.js
+      window.filterPetsByCategory(selectedCategory);
+
+      // Scroll to pet collection
+      document.getElementById("pet-collection")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
   });
-};
 
-loadCategories();
-loadContents();
+  window.updateActiveCategory();
+}
+
+// Initialize category section
+displayCategories();

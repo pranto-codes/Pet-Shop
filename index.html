@@ -1,97 +1,892 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7faf8" />
+    <meta
+      name="description"
+      content="Find your new best friend. Explore pets looking for a loving home."
+    />
+
+    <title>Peddy — Find Your New Best Friend</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@5"
       rel="stylesheet"
       type="text/css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Document of peddy</title>
+
+    <style>
+      :root {
+        --primary: #087f75;
+        --primary-dark: #06665f;
+        --soft-green: #e9f5ef;
+        --text: #172b28;
+        --muted: #75827e;
+        --background: #f7faf8;
+      }
+
+      * {
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Manrope", sans-serif;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .container-main {
+        width: min(1180px, calc(100% - 40px));
+        margin-inline: auto;
+      }
+
+      .text-primary {
+        color: var(--primary);
+      }
+
+      .bg-primary {
+        background: var(--primary);
+      }
+
+      .primary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 13px 22px;
+        border-radius: 12px;
+        background: var(--primary);
+        color: white;
+        font-weight: 700;
+        border: 1px solid var(--primary);
+        transition: 0.25s ease;
+      }
+
+      .primary-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .outline-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border: 1px solid #d8e4de;
+        border-radius: 12px;
+        color: var(--text);
+        font-weight: 700;
+        background: white;
+        transition: 0.25s ease;
+      }
+
+      .outline-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 13px;
+        background: var(--soft-green);
+        color: var(--primary);
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .section-title {
+        font-size: clamp(30px, 4vw, 43px);
+        line-height: 1.2;
+        font-weight: 800;
+        letter-spacing: -1.5px;
+      }
+
+      .section-description {
+        color: var(--muted);
+        line-height: 1.8;
+        max-width: 620px;
+      }
+
+      /* Navbar */
+      .navbar-custom {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(247, 250, 248, 0.92);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid #e9efeb;
+      }
+
+      .nav-link {
+        color: #596762;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.2s;
+      }
+
+      .nav-link:hover {
+        color: var(--primary);
+      }
+
+      .logo-mark {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 13px;
+        background: var(--primary);
+        color: white;
+        font-size: 18px;
+      }
+
+      /* Hero */
+      .hero-section {
+        padding: 72px 0 80px;
+        overflow: hidden;
+      }
+
+      .hero-image-wrap {
+        position: relative;
+        padding: 12px;
+        background: white;
+        border: 1px solid #e8eee9;
+        border-radius: 30px;
+        box-shadow: 0 25px 70px rgba(29, 72, 56, 0.09);
+      }
+
+      .hero-image {
+        width: 100%;
+        height: 440px;
+        object-fit: cover;
+        border-radius: 22px;
+      }
+
+      .floating-note {
+        position: absolute;
+        left: -28px;
+        bottom: 36px;
+        background: white;
+        padding: 15px 18px;
+        border-radius: 16px;
+        box-shadow: 0 12px 35px rgba(20, 50, 40, 0.12);
+      }
+
+      .hero-title {
+        font-size: clamp(42px, 5.5vw, 65px);
+        font-weight: 800;
+        line-height: 1.12;
+        letter-spacing: -3px;
+      }
+
+      /* Category cards */
+      .category-btn {
+        position: relative;
+        overflow: hidden;
+        min-width: 0;
+        border: 2px solid transparent;
+        border-radius: 18px;
+        background: white;
+        text-align: left;
+        transition: 0.25s ease;
+        box-shadow: 0 5px 22px rgba(35, 70, 55, 0.04);
+      }
+
+      .category-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 30px rgba(35, 70, 55, 0.1);
+      }
+
+      .category-btn.active {
+        border-color: var(--primary);
+        background: #eff9f4;
+        box-shadow: 0 8px 24px rgba(8, 127, 117, 0.12);
+      }
+
+      .category-image {
+        width: 100%;
+        height: 130px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .category-icon {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        background: var(--soft-green);
+        color: var(--primary);
+      }
+
+      /* Pet cards */
+      .pet-card {
+        overflow: hidden;
+        border: 1px solid #e8eee9;
+        border-radius: 20px;
+        background: white;
+        transition: 0.3s ease;
+      }
+
+      .pet-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 42px rgba(35, 70, 55, 0.09);
+      }
+
+      .pet-image-wrap {
+        position: relative;
+        overflow: hidden;
+        margin: 12px 12px 0;
+        border-radius: 14px;
+        background: #edf2ee;
+      }
+
+      .pet-image {
+        display: block;
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .pet-card:hover .pet-image {
+        transform: scale(1.05);
+      }
+
+      .pet-category-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 6px 11px;
+        background: rgba(255, 255, 255, 0.94);
+        color: var(--primary);
+        border-radius: 30px;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .pet-info {
+        padding: 17px;
+      }
+
+      .pet-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px 15px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .pet-meta i {
+        color: var(--primary);
+        margin-right: 4px;
+      }
+
+      .like-btn {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border: 1px solid #dce8e1;
+        border-radius: 11px;
+        color: var(--primary);
+        background: white;
+        transition: 0.2s;
+      }
+
+      .like-btn.liked {
+        background: #fff0f0;
+        border-color: #ffd5d5;
+        color: #e34c63;
+      }
+
+      .pet-action {
+        padding: 9px 13px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        transition: 0.2s;
+      }
+
+      .adopt-action {
+        background: var(--soft-green);
+        color: var(--primary);
+      }
+
+      .adopt-action:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      .details-action {
+        background: #f2f5f3;
+        color: #4d5e57;
+      }
+
+      .details-action:hover {
+        background: #e3eee8;
+        color: var(--primary);
+      }
+
+      /* Search bar */
+      .search-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        max-width: 390px;
+        padding: 0 16px;
+        border: 1px solid #e0e9e3;
+        border-radius: 13px;
+        background: white;
+      }
+
+      .search-box input {
+        width: 100%;
+        padding: 13px 0;
+        outline: none;
+        border: none;
+        background: transparent;
+        color: var(--text);
+        font-size: 14px;
+      }
+
+      /* About section */
+      .feature-card {
+        padding: 26px;
+        border: 1px solid #e8eee9;
+        border-radius: 18px;
+        background: white;
+      }
+
+      .feature-icon {
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: var(--soft-green);
+        color: var(--primary);
+        font-size: 20px;
+      }
+
+      /* CTA */
+      .cta-section {
+        overflow: hidden;
+        position: relative;
+        border-radius: 26px;
+        background: #0b4944;
+        color: white;
+      }
+
+      /* Footer */
+      .footer-custom {
+        background: #102e2b;
+        color: #dce8e2;
+      }
+
+      .footer-link {
+        display: block;
+        margin-top: 12px;
+        color: #aebfb6;
+        font-size: 14px;
+        transition: 0.2s;
+      }
+
+      .footer-link:hover {
+        color: white;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .container-main {
+          width: min(100% - 30px, 600px);
+        }
+
+        .hero-section {
+          padding: 45px 0 55px;
+        }
+
+        .hero-image {
+          height: 310px;
+        }
+
+        .hero-title {
+          letter-spacing: -2px;
+        }
+
+        .floating-note {
+          left: 10px;
+          bottom: 20px;
+        }
+
+        .category-image {
+          height: 105px;
+        }
+
+        .pet-image {
+          height: 200px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .category-image {
+          height: 85px;
+        }
+
+        .pet-image {
+          height: 180px;
+        }
+
+        .pet-info {
+          padding: 13px;
+        }
+
+        .pet-meta {
+          gap: 8px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
   </head>
+
   <body>
+    <!-- Navbar -->
+    <header class="navbar-custom">
+      <div class="container-main flex items-center justify-between py-4">
+        <a href="#" class="flex items-center gap-3">
+          <span class="logo-mark">
+            <i class="fa-solid fa-paw"></i>
+          </span>
+          <span class="text-2xl font-extrabold tracking-tight">
+            peddy<span class="text-primary">.</span>
+          </span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-8">
+          <a href="#" class="nav-link">Home</a>
+          <a href="#about" class="nav-link">About Us</a>
+          <a href="#explore-pets" class="nav-link">Explore Pets</a>
+          <a href="#pet-collection" class="nav-link">Find a Pet</a>
+        </nav>
+
+        <a href="#pet-collection" class="primary-btn hidden sm:inline-flex">
+          Find a Friend <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+        <div class="dropdown dropdown-end md:hidden">
+          <button
+            tabindex="0"
+            class="btn btn-ghost btn-circle"
+            aria-label="Open menu"
+          >
+            <i class="fa-solid fa-bars text-xl"></i>
+          </button>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu bg-base-100 rounded-box z-50 mt-3 w-52 p-3 shadow-lg"
+          >
+            <li><a href="#">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#explore-pets">Explore Pets</a></li>
+            <li><a href="#pet-collection">Find a Pet</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
     <main>
-      <!--navbar start-->
-      <div class="navbar">
-        <div class="navbar-start gap-2">
-          <img src="images/logo.webp" alt="" />
-          <p class="text-xl font-bold">Peddy</p>
-        </div>
-        <div class="navbar-center gap-4">
-          <a class="text-xs">Home</a>
-          <a class="text-xs">Shop</a>
-          <a class="text-xs">Contact</a>
-        </div>
-        <div class="navbar-end">
-          <i class="fa-solid fa-user"></i>
-        </div>
-      </div>
-      <!--navbar end-->
+      <!-- Hero -->
+      <section class="hero-section">
+        <div class="container-main grid lg:grid-cols-2 items-center gap-12">
+          <div>
+            <span class="section-label">
+              <i class="fa-solid fa-heart"></i>
+              A little love changes everything
+            </span>
 
-      <!-- second part start-->
-      <div class="mt-9 flex justify-center items-center">
-        <div class="font-bold text-5xl">
-          <p class="ml-14">Bringing Families</p>
-          <p class="ml-25">Together ❤️‍🔥</p>
-          <p>Your Path to Adoption</p>
-          <p class="ml-25">Starts Here</p>
+            <h1 class="hero-title mt-6">
+              Find your new
+              <span class="text-primary">best friend.</span>
+            </h1>
+
+            <p class="section-description mt-6 text-base">
+              Every pet deserves a loving home. Meet adorable companions,
+              discover their stories, and find the one who makes your everyday
+              life a little brighter.
+            </p>
+
+            <div class="flex flex-wrap gap-3 mt-8">
+              <a href="#pet-collection" class="primary-btn">
+                Explore Pets
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+
+              <a href="#about" class="outline-btn"> Learn More </a>
+            </div>
+
+            <div class="flex flex-wrap gap-8 mt-10">
+              <div>
+                <h3 class="text-2xl font-extrabold">12+</h3>
+                <p class="text-sm text-gray-500 mt-1">Lovely pets</p>
+              </div>
+              <div>
+                <h3 class="text-2xl font-extrabold">6</h3>
+                <p class="text-sm text-gray-500 mt-1">Pet categories</p>
+              </div>
+              <div>
+                <h3 class="text-2xl font-extrabold">100%</h3>
+                <p class="text-sm text-gray-500 mt-1">Made with love</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-image-wrap">
+            <img
+              class="hero-image"
+              src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&w=1100&q=85"
+              alt="A happy dog enjoying the outdoors"
+            />
+
+            <div class="floating-note flex items-center gap-3">
+              <div
+                class="w-11 h-11 rounded-full bg-green-100 grid place-items-center text-primary"
+              >
+                <i class="fa-solid fa-house-heart text-lg"></i>
+              </div>
+              <div>
+                <p class="font-bold text-sm">A home full of love</p>
+                <p class="text-xs text-gray-500 mt-1">
+                  Your next chapter starts here
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="mt-3">
-        <p class="text-xs justify-center items-center flex">
-          It is a long established fact that a reader will be distracted by the
-          readable content of a page when looking at its layout.
-        </p>
-        <p class="text-xs justify-center items-center flex">
-          The point of using Lorem Ipsum is that it has a.
-        </p>
-      </div>
-      <div class="mt-3 flex justify-center items-center">
-        <button class="btn btn-active btn-accent text-xl text-white">
-          View More
-        </button>
-      </div>
-      <!-- second part end-->
+      </section>
 
-      <!-- photo section-->
-      <img class="" src="images/pet.webp" alt="" />
-      <!-- photo section-->
+      <!-- About -->
+      <section id="about" class="py-20 bg-white">
+        <div class="container-main">
+          <div class="text-center max-w-2xl mx-auto">
+            <span class="section-label">ABOUT PEDDY</span>
+            <h2 class="section-title mt-4">
+              More than adoption. It's a new beginning.
+            </h2>
+            <p class="section-description mx-auto mt-4">
+              Finding a pet should feel special. We're here to make discovering
+              your future companion simple, enjoyable, and meaningful.
+            </p>
+          </div>
 
-      <!--Adopt  Your  Best Friend-->
-      <div class="nt-4 flex justify-center items-center">
-        <p class="font-bold text-4xl">Adopt Your Best Friend</p>
-      </div>
-      <p class="mt-4 flex justify-center items-center">
-        It is a long established fact that a reader will be distracted by the
-        readable content of a <br />
-        page when looking at its layout. The point of using Lorem Ipsum is that
-        it has a.
-      </p>
-      <!--Adopt  Your  Best Friend-->
-</div>
-  <!--category section start-->
- <nav id="categories" class=" mt-9 py-3 gap-5 flex justify-center items-center "></nav>
-      <!--category section end-->
-                    
-      <div class="flex justify-between">
-        <p class="font-semibold text-xl">Best Deal For You </p> 
-        <button class="btn btn-secondary">Sort by Price</button>
-      </div>
-      <section id="contents" class="w-11/12 max-auto grid grid-cols-1 md:grid-cols-2
-     lg:grid-cols-4 gap-4 py-5"></section>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fa-solid fa-paw"></i>
+              </div>
+              <h3 class="text-lg font-bold mt-5">Meet lovely pets</h3>
+              <p class="text-sm text-gray-500 leading-7 mt-2">
+                Explore different pets and learn a little about each one's
+                personality and needs.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+              <h3 class="text-lg font-bold mt-5">Choose with care</h3>
+              <p class="text-sm text-gray-500 leading-7 mt-2">
+                Compare pet details and find a companion that fits your home and
+                lifestyle.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fa-solid fa-house"></i>
+              </div>
+              <h3 class="text-lg font-bold mt-5">Give them a home</h3>
+              <p class="text-sm text-gray-500 leading-7 mt-2">
+                Every adoption can be the beginning of a beautiful friendship
+                filled with memories.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Explore Pets / Categories -->
+      <section id="explore-pets" class="py-20">
+        <div class="container-main">
+          <div
+            class="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+          >
+            <div>
+              <span class="section-label">EXPLORE BY CATEGORY</span>
+              <h2 class="section-title mt-4">Find your kind of companion</h2>
+              <p class="section-description mt-3">
+                From playful puppies to colorful birds, explore the companions
+                waiting to meet you.
+              </p>
+            </div>
+
+            <a
+              href="#pet-collection"
+              class="outline-btn self-start md:self-auto"
+            >
+              View all pets <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- Category cards are generated by img.js -->
+          <div
+            id="categories"
+            class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-10"
+          ></div>
+        </div>
+      </section>
+
+      <!-- Pet Collection -->
+      <section id="pet-collection" class="py-20 bg-white">
+        <div class="container-main">
+          <div class="text-center max-w-2xl mx-auto">
+            <span class="section-label">MEET YOUR NEW FRIEND</span>
+            <h2 class="section-title mt-4">Pets looking for a loving home</h2>
+            <p class="section-description mx-auto mt-4">
+              Take your time, explore their profiles, and discover the companion
+              who feels just right.
+            </p>
+          </div>
+
+          <div
+            class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-10"
+          >
+            <div>
+              <h3 class="text-xl font-bold">Available companions</h3>
+              <p id="pet-count" class="text-sm text-gray-500 mt-1">
+                Showing all pets
+              </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+              <label class="search-box">
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                <input
+                  id="search-input"
+                  type="search"
+                  placeholder="Search by name, breed..."
+                  aria-label="Search pets"
+                />
+              </label>
+
+              <button id="sort-price" type="button" class="outline-btn">
+                <i class="fa-solid fa-arrow-down-wide-short"></i>
+                Price: Low to High
+              </button>
+            </div>
+          </div>
+
+          <!-- Pet cards are generated by img2.js -->
+          <div
+            id="contents"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-8"
+          ></div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="py-20">
+        <div class="container-main">
+          <div class="cta-section p-8 md:p-14">
+            <div class="relative z-10 max-w-2xl">
+              <span class="text-sm font-bold text-green-200">
+                YOUR NEW FRIEND IS WAITING
+              </span>
+
+              <h2
+                class="text-3xl md:text-5xl font-extrabold leading-tight mt-4"
+              >
+                A little friendship can make a big difference.
+              </h2>
+
+              <p class="text-green-100 leading-7 mt-5 max-w-xl">
+                Start exploring today. Your perfect companion might be only one
+                click away.
+              </p>
+
+              <a
+                href="#pet-collection"
+                class="inline-flex mt-8 primary-btn !bg-white !text-[#0b4944] !border-white"
+              >
+                Find your companion
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+
+            <i
+              class="fa-solid fa-paw absolute -right-5 -bottom-16 text-[240px] text-white opacity-5"
+            ></i>
+          </div>
+        </div>
+      </section>
     </main>
-    <footer></footer>
 
-    <!--script-->
-    <script src="imgjs3.js"></script>
+    <!-- Pet Details Modal -->
+    <dialog id="pet-details-modal" class="modal">
+      <div class="modal-box max-w-2xl p-5 sm:p-7">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-bold">Pet profile</h3>
+          <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost" aria-label="Close">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </form>
+        </div>
+
+        <div id="pet-details-content"></div>
+      </div>
+
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+
+    <!-- Footer -->
+    <footer class="footer-custom pt-14 pb-8">
+      <div class="container-main">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div>
+            <a href="#" class="flex items-center gap-3">
+              <span class="logo-mark">
+                <i class="fa-solid fa-paw"></i>
+              </span>
+              <span class="text-2xl font-extrabold text-white">
+                peddy<span class="text-green-300">.</span>
+              </span>
+            </a>
+
+            <p class="text-sm text-gray-400 leading-7 mt-5 max-w-xs">
+              Helping you discover a new friend and make room for a little more
+              love in your life.
+            </p>
+
+            <div class="flex gap-3 mt-5">
+              <a
+                href="#"
+                aria-label="Facebook"
+                class="w-9 h-9 rounded-full bg-white/10 grid place-items-center hover:bg-white/20"
+              >
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+              <a
+                href="#"
+                aria-label="Instagram"
+                class="w-9 h-9 rounded-full bg-white/10 grid place-items-center hover:bg-white/20"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a
+                href="#"
+                aria-label="Twitter"
+                class="w-9 h-9 rounded-full bg-white/10 grid place-items-center hover:bg-white/20"
+              >
+                <i class="fa-brands fa-x-twitter"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-bold text-white">Quick Links</h4>
+            <a href="#" class="footer-link">Home</a>
+            <a href="#about" class="footer-link">About Us</a>
+            <a href="#explore-pets" class="footer-link">Explore Pets</a>
+            <a href="#pet-collection" class="footer-link">Find a Pet</a>
+          </div>
+
+          <div>
+            <h4 class="font-bold text-white">Pet Categories</h4>
+            <a href="#explore-pets" class="footer-link">Dogs</a>
+            <a href="#explore-pets" class="footer-link">Cats</a>
+            <a href="#explore-pets" class="footer-link">Rabbits</a>
+            <a href="#explore-pets" class="footer-link">Birds</a>
+          </div>
+
+          <div>
+            <h4 class="font-bold text-white">Get in touch</h4>
+            <p class="footer-link">
+              <i class="fa-solid fa-envelope mr-2"></i>
+              hello@peddy.example
+            </p>
+            <p class="footer-link">
+              <i class="fa-solid fa-location-dot mr-2"></i>
+              Your local community
+            </p>
+          </div>
+        </div>
+
+        <div class="border-t border-white/10 mt-12 pt-6 text-center">
+          <p class="text-xs text-gray-400">
+            © 2026 Peddy. Made with
+            <i class="fa-solid fa-heart text-red-400"></i> for animal lovers.
+          </p>
+          <p class="text-xs text-gray-500 mt-2">
+            Demo project — pet profiles and adoption actions are illustrative.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Load category script before pet script -->
+    <script src="img.js"></script>
+    <script src="img2.js"></script>
   </body>
 </html>
